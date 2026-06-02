@@ -132,9 +132,9 @@
     /* === 雙欄排版樣式 === */
     .split-slide-container {
       display: grid;
-      grid-template-columns: 1.0fr 1.0fr;
-      height: 620px;
-      width: 1100px;
+      grid-template-columns: 1.15fr 0.85fr;
+      height: 680px;
+      width: 1300px;
       max-width: 100vw;
       border-radius: 16px;
       overflow: hidden;
@@ -368,7 +368,7 @@
     <!-- Slide 2: 互動破冰 (文字雲) -->
     <section id="slide-wordcloud" data-background-image="images/bg_forest.png" data-background-opacity="0.15" data-background-size="cover">
       <div class="interact-title">🌱 互動破冰：你覺得「死亡」是什麼？</div>
-      <div style="display:grid; grid-template-columns:260px 1fr; gap:16px; height:460px; text-align:left; width: 1100px; margin: 0 auto;">
+      <div style="display:grid; grid-template-columns:280px 1fr; gap:20px; height:520px; text-align:left; width: 1260px; margin: 0 auto;">
         <!-- 左欄：輸入 + 排行 -->
         <div style="display:flex; flex-direction:column; gap:12px;">
           <div style="background:#ffffff; border-radius:10px; padding:14px; border:1px solid rgba(0,0,0,0.06); box-shadow:0 4px 12px rgba(0,0,0,0.02);">
@@ -642,7 +642,7 @@
 
     <!-- Slide 13: 烏鶇撞上玻璃窗 (VIZ) -->
     <section id="slide-viz">
-      <div class="split-slide-container" style="height:620px;">
+      <div class="split-slide-container" style="height:680px;">
         <div style="position:relative; height:100%; width:100%; overflow:hidden; background-color: #f5efe6;">
           <div id="viz-before" class="viz-side" style="width:100%; height:100%;">
             <svg viewBox="0 0 550 620" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background-color: #f5efe6; display: block;">
@@ -1005,9 +1005,9 @@
 <script>
   // 初始化 Reveal.js
   Reveal.initialize({
-    width: 1200,
-    height: 750,
-    margin: 0.04,
+    width: 1366,
+    height: 768,
+    margin: 0.03,
     hash: true,
     transition: 'slide',
     transitionSpeed: 'default',
