@@ -64,11 +64,9 @@
       background-color: var(--bg-light);
     }
     #viz-before {
-      background-image: url('images/viz_before.png');
       z-index: 5;
     }
     #viz-after {
-      background-image: url('images/viz_after.png');
       z-index: 10;
     }
 
@@ -645,10 +643,148 @@
     <!-- Slide 13: 烏鶇撞上玻璃窗 (VIZ) -->
     <section id="slide-viz">
       <div class="split-slide-container" style="height:620px;">
-        <!-- 左側插圖區：含有 clip-path 對比 (無任何文字遮擋) -->
-        <div style="position:relative; height:100%; width:100%; overflow:hidden;">
-          <div id="viz-before" class="viz-side" style="background-image: url('images/viz_before.png'); width:100%; height:100%;"></div>
-          <div id="viz-after" class="viz-side" style="background-image: url('images/viz_after.png'); width:100%; height:100%; clip-path: inset(0 100% 0 0);"></div>
+        <div style="position:relative; height:100%; width:100%; overflow:hidden; background-color: #f5efe6;">
+          <div id="viz-before" class="viz-side" style="width:100%; height:100%;">
+            <svg viewBox="0 0 550 620" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background-color: #f5efe6; display: block;">
+              <circle cx="450" cy="150" r="120" fill="#fefae0" opacity="0.6" />
+              <path d="M 0 500 C 100 450, 200 480, 300 400 C 400 320, 480 350, 550 280" fill="none" stroke="#6d4c41" stroke-width="24" stroke-linecap="round" />
+              <path d="M 0 500 C 100 450, 200 480, 300 400 C 400 320, 480 350, 550 280" fill="none" stroke="#5d4037" stroke-width="16" stroke-linecap="round" />
+              <path d="M 220 440 C 260 410, 320 415, 380 390" fill="none" stroke="#5d4037" stroke-width="10" stroke-linecap="round" />
+              <path d="M 120 460 C 100 430, 80 430, 90 460 C 100 480, 110 480, 120 460 Z" fill="#2c7a52" />
+              <path d="M 180 445 C 190 415, 210 410, 200 440 C 190 460, 185 460, 180 445 Z" fill="#52b788" />
+              <path d="M 280 400 C 270 370, 250 375, 265 405 C 275 420, 280 415, 280 400 Z" fill="#2c7a52" />
+              <path d="M 340 380 C 350 350, 370 345, 360 380 C 350 400, 345 395, 340 380 Z" fill="#74c69d" />
+              <path d="M 420 340 C 440 310, 460 315, 445 345 C 435 360, 425 355, 420 340 Z" fill="#52b788" />
+              <path d="M 480 300 C 510 270, 530 290, 500 320 C 480 340, 470 320, 480 300 Z" fill="#2c7a52" />
+              <g class="singing-bird" transform="translate(240, 240)">
+                <line x1="45" y1="120" x2="35" y2="150" stroke="#8d6e63" stroke-width="4" stroke-linecap="round" />
+                <line x1="55" y1="120" x2="55" y2="150" stroke="#8d6e63" stroke-width="4" stroke-linecap="round" />
+                <line x1="35" y1="150" x2="25" y2="155" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <line x1="55" y1="150" x2="45" y2="155" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <path d="M 0 100 L -60 120 L -55 130 L 10 110 Z" fill="#2c1e14" />
+                <path d="M 10 50 C -20 50, -40 80, -20 110 C 0 130, 40 130, 60 110 C 80 90, 80 60, 60 50 C 45 42, 25 42, 10 50 Z" fill="#2c1e14" />
+                <path d="M 15 65 C -5 65, -15 90, 0 105 C 15 115, 35 110, 45 90 C 55 70, 35 65, 15 65 Z" fill="#3d2f24" />
+                <path d="M 18 70 C 2 70, -6 90, 5 100 C 15 108, 30 105, 38 90 C 45 75, 30 70, 18 70 Z" fill="#1e1e24" opacity="0.3" />
+                <circle cx="65" cy="40" r="30" fill="#2c1e14" />
+                <circle cx="75" cy="35" r="7" fill="#ffb703" />
+                <circle cx="75" cy="35" r="4" fill="#ffffff" />
+                <circle cx="76" cy="34" r="2" fill="#000000" />
+                <path d="M 90 43 L 115 50 L 93 48 Z" fill="#ffb703" stroke="#e67e22" stroke-width="1" />
+                <path class="upper-beak" d="M 92 35 L 120 32 L 91 43 Z" fill="#ffb703" stroke="#e67e22" stroke-width="1" />
+              </g>
+              <g class="music-notes">
+                <path class="note note-1" d="M 370 240 C 380 210, 400 210, 390 190 C 385 180, 375 185, 370 180 M 390 190 L 390 200 M 370 180 L 370 190" fill="none" stroke="#2c7a52" stroke-width="2" />
+                <text x="360" y="220" fill="#d35400" font-size="24" class="note note-2">🎵</text>
+                <text x="390" y="245" fill="#2c7a52" font-size="20" class="note note-3">🎶</text>
+              </g>
+              <style>
+                @keyframes song-pulse {
+                  0% { transform: translate(240px, 240px) scale(1); }
+                  50% { transform: translate(240px, 238px) scale(1.02); }
+                  100% { transform: translate(240px, 240px) scale(1); }
+                }
+                @keyframes beak-move {
+                  0% { transform: rotate(0deg); }
+                  50% { transform: rotate(-8deg); transform-origin: 92px 39px; }
+                  100% { transform: rotate(0deg); }
+                }
+                @keyframes float-note-1 {
+                  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+                  30% { opacity: 0.8; }
+                  100% { transform: translate(60px, -80px) scale(1.2); opacity: 0; }
+                }
+                @keyframes float-note-2 {
+                  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+                  40% { opacity: 0.8; }
+                  100% { transform: translate(40px, -120px) scale(1.1); opacity: 0; }
+                }
+                @keyframes float-note-3 {
+                  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+                  20% { opacity: 0.9; }
+                  100% { transform: translate(80px, -60px) scale(1); opacity: 0; }
+                }
+                .singing-bird {
+                  animation: song-pulse 2s infinite ease-in-out;
+                }
+                .upper-beak {
+                  animation: beak-move 0.6s infinite ease-in-out;
+                }
+                .note-1 {
+                  animation: float-note-1 3s infinite linear;
+                  transform-origin: 370px 240px;
+                }
+                .note-2 {
+                  animation: float-note-2 4s infinite linear 1s;
+                  transform-origin: 360px 220px;
+                }
+                .note-3 {
+                  animation: float-note-3 3.5s infinite linear 2s;
+                  transform-origin: 390px 245px;
+                }
+              </style>
+            </svg>
+          </div>
+          <div id="viz-after" class="viz-side" style="width:100%; height:100%; clip-path: inset(0 100% 0 0); background: #fcfaf2;">
+            <svg viewBox="0 0 550 620" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="background-color: #f5efe6; display: block;">
+              <circle cx="450" cy="150" r="120" fill="#e0ecde" opacity="0.4" />
+              <path d="M 0 500 C 100 450, 200 480, 300 400 C 400 320, 480 350, 550 280" fill="none" stroke="#8d6e63" stroke-width="20" stroke-linecap="round" opacity="0.4" />
+              <path d="M 220 440 C 260 410, 320 415, 380 390" fill="none" stroke="#7d5a50" stroke-width="8" stroke-linecap="round" opacity="0.4" />
+              <path d="M -50 630 L 600 630 L 600 520 C 450 510, 350 540, 200 520 C 100 510, 0 530, -50 540 Z" fill="#2c7a52" opacity="0.9" />
+              <path d="M -50 630 L 600 630 L 600 535 C 480 525, 380 550, 220 535 C 120 525, 20 545, -50 550 Z" fill="#205f3e" />
+              <path d="M 80 535 Q 85 515, 95 510 Q 90 525, 85 535 Z" fill="#52b788" />
+              <path d="M 120 530 Q 128 505, 140 500 Q 132 518, 122 530 Z" fill="#74c69d" />
+              <path d="M 380 540 Q 375 520, 365 515 Q 372 528, 378 540 Z" fill="#52b788" />
+              <g class="sleeping-bird" transform="translate(180, 440)">
+                <line x1="75" y1="80" x2="85" y2="55" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <line x1="85" y1="55" x2="95" y2="52" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <line x1="83" y1="80" x2="95" y2="60" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <line x1="95" y1="60" x2="105" y2="57" stroke="#8d6e63" stroke-width="3" stroke-linecap="round" />
+                <path d="M 20 90 L -40 100 L -35 105 L 25 95 Z" fill="#2c1e14" opacity="0.85" />
+                <path d="M 30 65 C 5 65, -10 80, 10 95 C 25 102, 70 102, 90 95 C 105 85, 105 70, 85 65 C 70 60, 50 60, 30 65 Z" fill="#2c1e14" />
+                <path d="M 35 72 C 20 72, 10 82, 25 92 C 35 98, 65 98, 70 90 C 75 80, 55 72, 35 72 Z" fill="#3d2f24" />
+                <circle cx="110" cy="80" r="22" fill="#2c1e14" />
+                <path d="M 108 78 Q 113 83, 118 78" fill="none" stroke="#ffb703" stroke-width="3" stroke-linecap="round" />
+                <path d="M 128 80 L 148 76 L 129 84 Z" fill="#ffb703" opacity="0.8" />
+              </g>
+              <g class="falling-leaves">
+                <path class="leaf leaf-1" d="M 150 100 C 160 120, 150 140, 140 130 C 130 120, 140 110, 150 100 Z" fill="#d35400" />
+                <path class="leaf leaf-2" d="M 350 80 C 370 90, 380 110, 360 115 C 340 120, 340 100, 350 80 Z" fill="#e67e22" />
+                <path class="leaf leaf-3" d="M 450 200 C 460 220, 450 240, 440 230 C 430 220, 440 210, 450 200 Z" fill="#d35400" opacity="0.6" />
+              </g>
+              <style>
+                @keyframes leaf-fall-1 {
+                  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+                  10% { opacity: 0.8; }
+                  90% { opacity: 0.8; }
+                  100% { transform: translate(60px, 350px) rotate(360deg); opacity: 0; }
+                }
+                @keyframes leaf-fall-2 {
+                  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+                  15% { opacity: 0.9; }
+                  85% { opacity: 0.9; }
+                  100% { transform: translate(-80px, 400px) rotate(-180deg); opacity: 0; }
+                }
+                @keyframes leaf-fall-3 {
+                  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+                  10% { opacity: 0.7; }
+                  90% { opacity: 0.7; }
+                  100% { transform: translate(-40px, 300px) rotate(270deg); opacity: 0; }
+                }
+                .leaf-1 {
+                  animation: leaf-fall-1 6s infinite linear;
+                  transform-origin: 150px 100px;
+                }
+                .leaf-2 {
+                  animation: leaf-fall-2 8s infinite linear 2s;
+                  transform-origin: 350px 80px;
+                }
+                .leaf-3 {
+                  animation: leaf-fall-3 7s infinite linear 4s;
+                  transform-origin: 450px 200px;
+                }
+              </style>
+            </svg>
+          </div>
           <div id="viz-divider"></div>
         </div>
         
