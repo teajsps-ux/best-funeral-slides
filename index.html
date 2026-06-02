@@ -645,15 +645,11 @@
     <!-- Slide 13: 烏鶇撞上玻璃窗 (VIZ) -->
     <section id="slide-viz">
       <div class="split-slide-container" style="height:620px;">
-        <!-- 左側插圖區：含有 clip-path 對比 -->
+        <!-- 左側插圖區：含有 clip-path 對比 (無任何文字遮擋) -->
         <div style="position:relative; height:100%; width:100%; overflow:hidden;">
           <div id="viz-before" class="viz-side" style="background-image: url('images/viz_before.png'); width:100%; height:100%;"></div>
           <div id="viz-after" class="viz-side" style="background-image: url('images/viz_after.png'); width:100%; height:100%; clip-path: inset(0 100% 0 0);"></div>
           <div id="viz-divider"></div>
-          
-          <!-- 左右浮動標籤 -->
-          <span id="label-before" class="slider-label active" style="position:absolute; bottom:16px; left:16px; z-index:30; background:rgba(255,255,255,0.85); padding:4px 8px; border-radius:4px; font-size:12px;">🎵 烏鶇正快樂唱歌 (生)</span>
-          <span id="label-after" class="slider-label" style="position:absolute; bottom:16px; right:16px; z-index:30; background:rgba(255,255,255,0.85); padding:4px 8px; border-radius:4px; font-size:12px;">🍂 撞上玻璃安息 (死)</span>
         </div>
         
         <!-- 右側故事區 -->
@@ -662,13 +658,19 @@
           <p>我們走在大馬路旁，突然看到兩隻烏鶇在樹叢間追逐。</p>
           <p>接著，其中一隻「砰」的一聲，猛烈撞上了陽臺的玻璃窗，掉在我們腳邊。</p>
           <p>我們蹲在小鳥旁邊。牠拍了拍翅膀，打開嘴巴，雙腳抽動了一下……就這樣躺在那裡一動也不動。僅僅幾秒鐘，牠死去了。</p>
-          <p style="color:var(--accent); font-weight:bold;">這是我第一次親眼看見活生生的生命在我面前死掉。我全身顫抖，完全忘記了害怕，一路抱著牠走到秘密基地。</p>
+          <p style="color:var(--accent); font-weight:bold; margin-bottom: 15px;">這是我第一次親眼看見活生生的生命在我面前死掉。我全身顫抖，完全忘記了害怕，一路抱著牠走到秘密基地。</p>
           
-          <!-- 滑桿控制區 -->
-          <div class="slider-control" style="margin-top:20px;">
-            <span class="slider-label">生</span>
-            <input id="viz-slider" type="range" min="0" max="100" value="0">
-            <span class="slider-label">死</span>
+          <!-- 滑桿與狀態提示區 (移至右邊，避免遮擋左邊插圖) -->
+          <div style="margin-top:auto; padding-top:15px; border-top:1px solid rgba(0,0,0,0.06);">
+            <div class="slider-control" style="margin-bottom:12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span class="slider-label">生</span>
+              <input id="viz-slider" type="range" min="0" max="100" value="0" style="flex:1;">
+              <span class="slider-label">死</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding: 0 5px;">
+              <span id="label-before" class="slider-label active" style="transition: color 0.3s; font-weight:bold; font-size: 12px;">🎵 烏鶇正快樂唱歌 (生)</span>
+              <span id="label-after" class="slider-label" style="transition: color 0.3s; font-weight:bold; font-size: 12px;">🍂 撞上玻璃安息 (死)</span>
+            </div>
           </div>
         </div>
       </div>
