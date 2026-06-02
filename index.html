@@ -329,6 +329,24 @@
     }
     
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* 語音導讀卡拉 OK 式句子亮起與自動捲動 */
+    .tts-phrase {
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 6px;
+      padding: 0 4px;
+      display: inline-block;
+    }
+    .tts-highlight {
+      background-color: var(--accent) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(211, 84, 0, 0.3);
+    }
+    body.zhuyin-mode .tts-highlight {
+      background-color: var(--accent2) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(44, 122, 82, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -1161,59 +1179,81 @@
     });
   }
 
-  // Web Speech API 語音導讀
+  // Web Speech API 語音導讀 (卡拉 OK 式句子亮起與自動滾動支援)
   const synth = window.speechSynthesis;
   const ttsPlayBtn = document.getElementById('tts-play-btn');
   const ttsSpeedSlider = document.getElementById('tts-speed-slider');
   const ttsSpeedVal = document.getElementById('tts-speed-val');
-  let isSpeaking = false;
+  let isTTSSpeaking = false;
   let currentUtterance = null;
+  let ttsPhrases = [];
+  let currentPhraseIndex = -1;
 
   if (ttsSpeedSlider && ttsSpeedVal) {
     ttsSpeedSlider.addEventListener('input', function() {
       const val = parseFloat(this.value).toFixed(1);
       ttsSpeedVal.textContent = val + 'x';
-      if (isSpeaking) {
-        speakCurrentSlide();
+      if (isTTSSpeaking) {
+        synth.cancel();
+        speakPhraseList(currentPhraseIndex);
       }
     });
   }
 
   function setTTSPlayState(playing) {
-    isSpeaking = playing;
+    isTTSSpeaking = playing;
     if (ttsPlayBtn) {
       ttsPlayBtn.innerHTML = playing ? '⏸' : '▶';
       ttsPlayBtn.style.background = playing ? 'var(--warn)' : 'var(--accent2)';
     }
   }
 
-  function stopSpeaking() {
-    synth.cancel();
-    setTTSPlayState(false);
+  function prepareTTSPhrases(slide) {
+    if (slide.querySelector('.tts-phrase')) return;
+    
+    const elements = slide.querySelectorAll('h1, h2, h3, p, li, blockquote, .adv-title, .adv-desc, .quote-box');
+    elements.forEach(el => {
+      if (el.closest('#tts-panel') || el.closest('#floating-toolbar') || el.closest('.slider-control') || el.closest('.word-chip')) return;
+      
+      const text = el.innerText.trim();
+      if (!text) return;
+      
+      const parts = text.split(/([，。！？：；、\n\r]+)/);
+      let newHTML = '';
+      parts.forEach(part => {
+        if (!part) return;
+        if (/^[，。！？：；、\n\r]+$/.test(part)) {
+          newHTML += part.replace(/\n/g, '<br>');
+        } else {
+          newHTML += `<span class="tts-phrase">${part}</span>`;
+        }
+      });
+      el.innerHTML = newHTML;
+    });
   }
 
-  function speakCurrentSlide() {
-    synth.cancel();
-    const activeSlide = Reveal.getCurrentSlide();
-    if (!activeSlide) return;
-
-    const selectedText = window.getSelection().toString().trim();
-    let textToRead = '';
-    
-    if (selectedText) {
-      textToRead = selectedText;
-    } else {
-      const headers = Array.from(activeSlide.querySelectorAll('h1, h2, h3'))
-        .map(el => el.innerText.replace(/🍬|🔊|✥|🌱|⭐/g, ''));
-      const paragraphs = Array.from(activeSlide.querySelectorAll('p, li, .adv-title, .adv-desc, .quote-box, blockquote'))
-        .map(el => el.innerText);
-      textToRead = [...headers, ...paragraphs].join('。 ');
+  function speakPhraseList(index) {
+    if (!isTTSSpeaking || index >= ttsPhrases.length) {
+      stopTTSSpeaking();
+      return;
     }
     
-    textToRead = textToRead.replace(/\s+/g, ' ').trim();
-    if (!textToRead) return;
-
-    const utterance = new SpeechSynthesisUtterance(textToRead);
+    currentPhraseIndex = index;
+    const phraseEl = ttsPhrases[index];
+    
+    ttsPhrases.forEach(el => el.classList.remove('tts-highlight'));
+    phraseEl.classList.add('tts-highlight');
+    
+    // 平滑捲動並置中顯示當前唸到的句子
+    phraseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    const text = phraseEl.innerText.replace(/🍬|🔊|✥|🌱|⭐/g, '').trim();
+    if (!text) {
+      speakPhraseList(index + 1);
+      return;
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(text);
     const voices = synth.getVoices();
     const zhVoice = voices.find(v => v.lang.includes('zh-TW')) || voices.find(v => v.lang.includes('zh'));
     if (zhVoice) {
@@ -1222,27 +1262,59 @@
     
     utterance.rate = ttsSpeedSlider ? parseFloat(ttsSpeedSlider.value) : 0.7;
     utterance.pitch = 1.0;
-
-    utterance.onend = () => setTTSPlayState(false);
-    utterance.onerror = () => setTTSPlayState(false);
-
+    
+    utterance.onend = () => {
+      speakPhraseList(index + 1);
+    };
+    
+    utterance.onerror = (e) => {
+      console.warn("TTS phrase error:", e);
+      speakPhraseList(index + 1);
+    };
+    
     currentUtterance = utterance;
     synth.speak(utterance);
+  }
+
+  function startTTSSpeaking() {
+    synth.cancel();
+    const activeSlide = Reveal.getCurrentSlide();
+    if (!activeSlide) return;
+    
+    prepareTTSPhrases(activeSlide);
+    
+    ttsPhrases = Array.from(activeSlide.querySelectorAll('.tts-phrase'));
+    if (ttsPhrases.length === 0) return;
+    
+    isTTSSpeaking = true;
     setTTSPlayState(true);
+    speakPhraseList(0);
+  }
+
+  function stopTTSSpeaking() {
+    synth.cancel();
+    isTTSSpeaking = false;
+    currentPhraseIndex = -1;
+    setTTSPlayState(false);
+    
+    const activeSlide = Reveal.getCurrentSlide();
+    if (activeSlide) {
+      activeSlide.querySelectorAll('.tts-phrase').forEach(el => el.classList.remove('tts-highlight'));
+    }
   }
 
   if (ttsPlayBtn) {
     ttsPlayBtn.addEventListener('click', () => {
-      if (isSpeaking) {
-        stopSpeaking();
+      if (isTTSSpeaking) {
+        stopTTSSpeaking();
       } else {
-        speakCurrentSlide();
+        startTTSSpeaking();
       }
     });
   }
 
   Reveal.on('slidechanged', () => {
-    stopSpeaking();
+    stopTTSSpeaking();
   });
 
   // Web Audio API 自然音效合成器 (免音訊檔)
